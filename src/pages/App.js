@@ -12,10 +12,11 @@ const alpha = require('alphavantage')({
 const APIKey = 'RIDXJ7V4EWS069FV';
 
 export default function App(props) {
+	const [symbol, setSymbol] = useState([]);
 	const [stockList, setStockList] = useState([]); // sets state for total stock list to render
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({});
 
-	const APIDataPull = async symbol => {
+	const APIDataPull = async () => {
 		try {
 			const response = await fetch(
 				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${APIKey}`
@@ -27,9 +28,11 @@ export default function App(props) {
 			});
 		} catch (error) {
 			console.error(error);
-		} finally {
-			sendToDB();
 		}
+		// finally {
+		// 	console.log(DBSymbolAdd);
+		// 	sendToDB();
+		// }
 	};
 
 	const sendToDB = async () => {
@@ -43,10 +46,15 @@ export default function App(props) {
 			});
 	};
 
-	const onFormSubmit = async (event, symbol) => {
+	const onFormSubmit = async event => {
 		event.preventDefault();
-		await APIDataPull(symbol);
-		await setStockList([...stockList, symbol]);
+		await APIDataPull();
+		await sendToDB();
+		//await setStockList([...stockList, symbol]);
+	};
+
+	const handleChange = event => {
+		setSymbol(event.target.value);
 	};
 
 	const todayDate = () => {
@@ -66,7 +74,11 @@ export default function App(props) {
 
 	return (
 		<div className="total-container">
-			<AddSymbol onFormSubmit={onFormSubmit} />
+			<AddSymbol
+				onFormSubmit={onFormSubmit}
+				handleChange={handleChange}
+				symbol={symbol}
+			/>
 			<br />
 			<ul>
 				{stockList.map(stock => {
