@@ -24,7 +24,7 @@ stockRouter.post('/', async (req, res) => {
 stockRouter.get('/', async (req, res) => {
 	try {
 		const foundStocks = await Stock.find({}); //.populate('comments') // transforms array of oject id's into comments themselves
-		res.status(200).json(foundStocks);
+		res.status(200).json(foundStocks)
 	} catch (error) {
 		res.status(400).json(error);
 	}

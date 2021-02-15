@@ -12,9 +12,9 @@ const alpha = require('alphavantage')({
 const APIKey = 'RIDXJ7V4EWS069FV';
 
 export default function App(props) {
-	const [symbol, setSymbol] = useState([]);
+	const [symbol, setSymbol] = useState([]); // sets state of ticker symbol what user enters
 	const [stockList, setStockList] = useState([]); // sets state for total stock list to render
-	const [DBSymbolAdd, setDBSymbolAdd] = useState({});
+	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
 
 	const APIDataPull = async () => {
 		try {
@@ -50,7 +50,8 @@ export default function App(props) {
 		event.preventDefault();
 		await APIDataPull();
 		await sendToDB();
-		//await setStockList([...stockList, symbol]);
+		setSymbol('');
+		setStockList([...stockList, symbol]);
 	};
 
 	const handleChange = event => {
@@ -61,7 +62,7 @@ export default function App(props) {
 		const previousDay = true; // CHANGE THIS HERE TO FALSE TO GET CURRENT DAY
 		var today = new Date();
 		const previousDayFlag = previousDay
-			? String(today.getDate() - 1).padStart(2, '0')
+			? String(today.getDate() - 3).padStart(2, '0') //Change here to get date correct
 			: String(today.getDate()).padStart(2, '0');
 		var dd = String(today.getDate()).padStart(2, '0'); // gets day of month - padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
 		var mm = String(today.getMonth() + 1).padStart(2, '0'); // gets month - January is 0! . padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
@@ -96,73 +97,3 @@ export default function App(props) {
 		</div>
 	);
 }
-
-/*
-	alpha.data.daily_adjusted(`nflx`).then(data => {
-		console.log(data);
-		console.log(data['Time Series (Daily)']);
-		console.log(data['Time Series (Daily)']['2021-02-09']['1. open']);
-	});
-	*/
-
-/*
-	useEffect(() => {
-		(async () => {
-			if (symbolForSearch) {
-				try {
-					const response = await fetch(
-						alpha.data.daily_adjusted(symbolForSearch).then(data => {
-							console.log(response);
-							console.log(data);
-							//setDataFromAPI(data);
-							await setDataFromAPI([
-								...dataFromAPI,
-								{
-									symbol: symbolForSearch,
-									lastPrice:
-										data['Time Series (Daily)'][todayDate()][
-											'5. adjusted close'
-										]
-								}
-							]);
-							await setDBSymbolAdd({
-								symbol: symbolForSearch,
-								lastPrice:
-									data['Time Series (Daily)'][todayDate()]['5. adjusted close']
-							});
-						})
-					);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		})();
-	}, [stockList]);
-	*/
-
-// sets state to send to MongoDB
-
-/* This was my most recent APIDataPull Function
-	const APIDataPull = symbol => {
-		(async () => {
-			if (symbol) {
-				try {
-					console.log(symbol);
-					const response = await fetch(
-						alpha.data.daily_adjusted(symbol).then(data => {
-							console.log(response);
-							console.log(data);
-							setDBSymbolAdd({
-								symbol: symbol,
-								lastPrice:
-									data['Time Series (Daily)'][todayDate()]['5. adjusted close']
-							});
-						})
-					);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		})();
-	};
-	*/
