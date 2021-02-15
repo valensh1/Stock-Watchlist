@@ -12,7 +12,7 @@ const alpha = require('alphavantage')({
 const APIKey = 'RIDXJ7V4EWS069FV';
 
 export default function App(props) {
-	const [symbol, setSymbol] = useState([]); // sets state of ticker symbol what user enters
+	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
 	const [stockList, setStockList] = useState([]); // sets state for total stock list to render
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
 
@@ -22,36 +22,42 @@ export default function App(props) {
 				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${APIKey}`
 			);
 			const data = await response.json();
-			await setDBSymbolAdd({
-				symbol: symbol,
-				lastPrice: data['Time Series (Daily)'][todayDate()]['5. adjusted close']
-			});
+			await sendToDB(data);
 		} catch (error) {
 			console.error(error);
 		}
 		// finally {
-		// 	console.log(DBSymbolAdd);
-		// 	sendToDB();
+		// console.log(DBSymbolAdd);
+		// awasendToDB();
 		// }
 	};
 
-	const sendToDB = async () => {
-		await axios
-			.post('http://localhost:3000/api/stocks', DBSymbolAdd)
-			.then(res => {
-				console.log(res.data);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+	const sendToDB = async data => {
+		const modifiedObject = {
+			symbol: symbol,
+			lastPrice: data['Time Series (Daily)'][todayDate()]['5. adjusted close']
+		};
+		try {
+			setDBSymbolAdd(modifiedObject);
+			const response = await axios.post(
+				'http://localhost:3000/api/stocks',
+				modifiedObject
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const onFormSubmit = async event => {
 		event.preventDefault();
-		await APIDataPull();
-		await sendToDB();
-		setSymbol('');
-		setStockList([...stockList, symbol]);
+		try {
+			await APIDataPull();
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setSymbol('');
+			setStockList([...stockList, symbol]);
+		}
 	};
 
 	const handleChange = event => {
