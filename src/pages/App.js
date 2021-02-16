@@ -15,6 +15,7 @@ export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
 	const [stockList, setStockList] = useState([]); // sets state for total stock list to render
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
+	const [DBTicker, setDBTicker] = useState([]);
 
 	const APIDataPull = async () => {
 		try {
@@ -26,10 +27,6 @@ export default function App(props) {
 		} catch (error) {
 			console.error(error);
 		}
-		// finally {
-		// console.log(DBSymbolAdd);
-		// awasendToDB();
-		// }
 	};
 
 	const sendToDB = async data => {
@@ -43,6 +40,7 @@ export default function App(props) {
 				'http://localhost:3000/api/stocks',
 				modifiedObject
 			);
+			setDBTicker([...DBTicker, modifiedObject]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -88,11 +86,12 @@ export default function App(props) {
 			/>
 			<br />
 			<ul>
-				{stockList.map(stock => {
+				{DBTicker.map(stock => {
 					return (
-						<div className="watchlist-container">
-							<Link to={'/stocknews'}>
-								<li key={`${stock}${count++}`}>{stock.toUpperCase()}</li>
+						<div key={`${stock}${count++}`} className="watchlist-container">
+							<Link to={`/${stock._id}`}>
+								<li>{stock.symbol.toUpperCase()}</li>
+								<li>{stock.lastPrice}</li>
 							</Link>
 							<DeleteSymbol />
 							<EditSymbol />
