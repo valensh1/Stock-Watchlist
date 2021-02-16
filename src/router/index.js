@@ -12,8 +12,8 @@ const AppRouter = () => {
 			<NavBar routes={routes} />
 			{/* <Link to="/test"> Test Anchor</Link> */}
 			<Switch>
-				<Route path="/stocknews" component={StockNews}></Route>
-				<Route path="/" component={App}></Route>
+				{/* <Route path="/" component={App}></Route>
+				<Route path="/api/stocks/:id" component={StockNews}></Route> */}
 				{/* {routes.map(({ Component, key, path }) => (
 					<Route
 						key={key}
@@ -21,6 +21,8 @@ const AppRouter = () => {
 						component={() => <Component page={key} />}
 					></Route>
 				))} */}
+				<Route path="/api/stocks/:id" component={StockNews} />
+				<Route path="/" component={App} />
 			</Switch>
 		</Router>
 	);

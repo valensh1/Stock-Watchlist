@@ -13,9 +13,8 @@ const APIKey = 'RIDXJ7V4EWS069FV';
 
 export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
-	const [stockList, setStockList] = useState([]); // sets state for total stock list to render
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
-	const [DBTicker, setDBTicker] = useState([]);
+	const [DBTicker, setDBTicker] = useState([]); //sets state of what is returned from database
 
 	useEffect(() => {
 		// Immediately Invoked Function Expression
@@ -26,9 +25,11 @@ export default function App(props) {
 				setDBTicker(data);
 			} catch (error) {
 				console.error(error);
+			} finally {
+				console.log('UseEffect has run');
 			}
 		})();
-	}, []);
+	}, []); // Question for Arthur - if I put DBTicker in empty brackets why does useEffect keep running continuously even though my DBTicker state is not changing constantly?
 
 	const APIDataPull = async () => {
 		try {
@@ -67,7 +68,6 @@ export default function App(props) {
 			console.error(error);
 		} finally {
 			setSymbol('');
-			setStockList([...stockList, symbol]);
 		}
 	};
 
@@ -89,6 +89,7 @@ export default function App(props) {
 	};
 
 	let count = 1;
+	console.log(DBSymbolAdd);
 
 	return (
 		<div className="total-container">
@@ -102,9 +103,9 @@ export default function App(props) {
 				{DBTicker.map(stock => {
 					return (
 						<div key={stock._id} className="watchlist-container">
-							<Link to={`/${stock._id}`}>
+							<Link to={`/api/stocks/${stock._id}`}>
 								<li>{stock.symbol.toUpperCase()}</li>
-								<li>{stock.lastPrice}</li>
+								<li>${stock.lastPrice}</li>
 							</Link>
 							<DeleteSymbol />
 							<EditSymbol />

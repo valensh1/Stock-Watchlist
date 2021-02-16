@@ -24,7 +24,7 @@ const routes = [
 	{
 		Component: StockNews,
 		key: 'StockNews',
-		path: '/stocknews'
+		path: '/:id'
 	},
 	{
 		Component: App,
