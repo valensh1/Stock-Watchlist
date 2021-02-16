@@ -17,6 +17,19 @@ export default function App(props) {
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
 	const [DBTicker, setDBTicker] = useState([]);
 
+	useEffect(() => {
+		// Immediately Invoked Function Expression
+		(async () => {
+			try {
+				const response = await fetch('/api/stocks');
+				const data = await response.json();
+				setDBTicker(data);
+			} catch (error) {
+				console.error(error);
+			}
+		})();
+	}, []);
+
 	const APIDataPull = async () => {
 		try {
 			const response = await fetch(
@@ -88,7 +101,7 @@ export default function App(props) {
 			<ul>
 				{DBTicker.map(stock => {
 					return (
-						<div key={`${stock}${count++}`} className="watchlist-container">
+						<div key={stock._id} className="watchlist-container">
 							<Link to={`/${stock._id}`}>
 								<li>{stock.symbol.toUpperCase()}</li>
 								<li>{stock.lastPrice}</li>
