@@ -4,6 +4,8 @@ import About from '../pages/About';
 import Home from '../pages/Home';
 import Contact from '../pages/Contact';
 import StockNews from '../pages/StockNews';
+import UpdateStock from '../components/UpdateStock';
+import DeleteSymbol from '../components/DeleteSymbol';
 
 const routes = [
 	{
@@ -22,10 +24,16 @@ const routes = [
 		path: '/about'
 	},
 	{
+		Component: DeleteSymbol,
+		key: 'UpdateStock',
+		path: '/:id/delete'
+	},
+	{
 		Component: StockNews,
 		key: 'StockNews',
 		path: '/:id'
 	},
+
 	{
 		Component: App,
 		key: 'App',

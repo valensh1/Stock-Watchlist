@@ -5,6 +5,7 @@ import routes from './routes';
 import StockNews from '../pages/StockNews';
 import Home from '../pages/Home';
 import App from '../pages/App';
+import DeleteSymbol from '../components/DeleteSymbol';
 
 const AppRouter = () => {
 	return (
@@ -12,17 +13,16 @@ const AppRouter = () => {
 			<NavBar routes={routes} />
 			{/* <Link to="/test"> Test Anchor</Link> */}
 			<Switch>
-				{/* <Route path="/" component={App}></Route>
-				<Route path="/api/stocks/:id" component={StockNews}></Route> */}
-				{/* {routes.map(({ Component, key, path }) => (
+				{routes.map(({ Component, key, path }) => (
 					<Route
 						key={key}
 						path={path}
-						component={() => <Component page={key} />}
+						component={props => <Component page={key} {...props} />}
 					></Route>
-				))} */}
-				<Route path="/api/stocks/:id" component={StockNews} />
-				<Route path="/" component={App} />
+				))}
+				{/* <Route path="/api/stocks/:id" component={StockNews} />
+				<Route path="/" component={App} /> 
+				<Route path="/" component={App}></Route> */}
 			</Switch>
 		</Router>
 	);

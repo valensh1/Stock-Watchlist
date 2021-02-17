@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AddSymbol from '../components/AddSymbol';
-import DeleteSymbol from '../components/DeleteButton';
+import DeleteSymbol from '../components/DeleteSymbol';
 import EditSymbol from '../components/EditButton';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
@@ -103,11 +103,15 @@ export default function App(props) {
 				{DBTicker.map(stock => {
 					return (
 						<div key={stock._id} className="watchlist-container">
-							<Link to={`/api/stocks/${stock._id}`}>
+							<Link to={`/${stock._id}`}>
 								<li>{stock.symbol.toUpperCase()}</li>
 								<li>${stock.lastPrice}</li>
 							</Link>
-							<DeleteSymbol />
+							<Link to={`/${stock._id}`}>
+								<Link to={`/${stock._id}/delete`}>
+									<DeleteSymbol />
+								</Link>
+							</Link>
 							<EditSymbol />
 						</div>
 					);

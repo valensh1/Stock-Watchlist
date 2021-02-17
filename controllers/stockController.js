@@ -34,7 +34,7 @@ stockRouter.get('/', async (req, res) => {
 stockRouter.get('/:id', async (req, res) => {
 	try {
 		const foundStocks = await Stock.findById(req.params.id);
-		await foundStocks.execPopulate('comments'); ////----might need to get rid of these execPopulate comments here
+		await foundStocks
 		res.status(200).json(foundStocks);
 	} catch (error) {
 		res.status(400).json(error);
