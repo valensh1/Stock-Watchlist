@@ -48,7 +48,7 @@ stockRouter.delete('/:id', async (req, res) => {
 		res.status(200).json(foundStocks);
 	} catch (error) {
 		res.status(400).json(error);
-	}
+	} 	
 });
 
 // UPDATE ROUTE

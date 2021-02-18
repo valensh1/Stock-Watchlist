@@ -17,7 +17,7 @@ const DeleteSymbol = props => {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			//window.location.assign('/');
+			//await window.location.assign('/');
 		}
 	};
 	return <button onClick={handleDelete}>DELETE</button>;
