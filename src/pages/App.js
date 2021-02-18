@@ -8,7 +8,6 @@ import StockNews from './StockNews';
 import { DatePicker } from '../components/DatePicker';
 
 const AlphaVantageAPIKey = process.env.ALPHA_VANTAGE_API_KEY;
-const PolygonAPIKey = process.env.POLYGON_API;
 
 export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
@@ -28,7 +27,7 @@ export default function App(props) {
 				console.log('UseEffect has run');
 			}
 		})();
-	}, []); // Question for Arthur - if I put DBTicker in empty brackets why does useEffect keep running continuously even though my DBTicker state is not changing constantly?
+	}, [DBTicker]); // Question for Arthur - if I put DBTicker in empty brackets why does useEffect keep running continuously even though my DBTicker state is not changing constantly?
 
 	const APIDataPull = async () => {
 		try {
@@ -89,8 +88,6 @@ export default function App(props) {
 	};
 
 	let count = 1;
-	console.log(DBSymbolAdd);
-	console.log(todayDate());
 
 	return (
 		<div className="total-container">
@@ -106,7 +103,7 @@ export default function App(props) {
 				{DBTicker.map(stock => {
 					return (
 						<div key={stock._id} className="watchlist-container">
-							<Link to={`/${stock._id}`}>
+							<Link to={`/${stock._id}`} symbol={stock.symbol}>
 								<li>{stock.symbol.toUpperCase()}</li>
 								<li>${stock.lastPrice}</li>
 							</Link>

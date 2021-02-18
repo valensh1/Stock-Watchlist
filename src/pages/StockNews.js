@@ -7,7 +7,10 @@ const PolygonAPIKey = 'lb5t4CfGCkFI2pFpkTrfsZlaswHw8xIC';
 
 export default function StockNews(props) {
 	console.log(props);
-	const [ticker, setTicker] = useState('');
+	const [ticker, setTicker] = useState({
+		symbol: '',
+		lastPrice: 0
+	});
 	const [APINews, setAPINews] = useState([]);
 	const tickerUpdate = useRef(null);
 	useEffect(() => {
@@ -15,8 +18,7 @@ export default function StockNews(props) {
 			try {
 				const response = await fetch(`/api/stocks/${props.match.params.id}`);
 				const data = await response.json();
-				setTicker(data);
-				console.log(ticker);
+				await setTicker(data);
 			} catch (err) {
 				console.error(err);
 			}
