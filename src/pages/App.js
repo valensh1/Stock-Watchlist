@@ -5,6 +5,7 @@ import EditSymbol from '../components/EditButton';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import StockNews from './StockNews';
+import { DatePicker } from '../components/DatePicker';
 
 const alpha = require('alphavantage')({
 	key: 'process.env.ALPHA_VANTAGE_API_KEY'
@@ -15,7 +16,7 @@ export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
 	const [DBTicker, setDBTicker] = useState([]); //sets state of what is returned from database
-
+	const [dateFrmChild, setDateFrmChild] = useState(new Date());
 	useEffect(() => {
 		// Immediately Invoked Function Expression
 		(async () => {
@@ -81,18 +82,22 @@ export default function App(props) {
 		const previousDayFlag = previousDay
 			? String(today.getDate() - 3).padStart(2, '0') //Change here to get date correct
 			: String(today.getDate()).padStart(2, '0');
-		var dd = String(today.getDate()).padStart(2, '0'); // gets day of month - padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
+		var dd = String(today.getDate()).padStart(2, '0'); // gets day of month - padStart inserts at beginning. First argument tells how long it should be after insertion and 2nd argument is what do you want inserted
 		var mm = String(today.getMonth() + 1).padStart(2, '0'); // gets month - January is 0! . padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
 		var yyyy = today.getFullYear(); // gets current year
-		let todaysDate = `${yyyy}-${mm}-${previousDayFlag}`;
+		//let todaysDate = `${yyyy}-${mm}-${previousDayFlag}`;
+		let todaysDate = `${dateFrmChild}`;
 		return todaysDate;
 	};
 
 	let count = 1;
 	console.log(DBSymbolAdd);
+	console.log(todayDate());
 
 	return (
 		<div className="total-container">
+			{/* todayDateChild is being passed as props to child DatePicker and DatePicker is taking date selected from input and sending it back up to parent */}
+			<DatePicker todayDateChild={date => setDateFrmChild(date)} />
 			<AddSymbol
 				onFormSubmit={onFormSubmit}
 				handleChange={handleChange}
