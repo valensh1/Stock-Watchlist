@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import App from './App';
 
+const PolygonAPIKey = 'lb5t4CfGCkFI2pFpkTrfsZlaswHw8xIC';
+//const PolygonAPIKey = process.env.POLYGON_API_KEY;
+
 export default function StockNews(props) {
 	console.log(props);
 	const [ticker, setTicker] = useState('');
+	const [APINews, setAPINews] = useState([]);
 	const tickerUpdate = useRef(null);
 	useEffect(() => {
 		(async () => {
@@ -12,11 +16,30 @@ export default function StockNews(props) {
 				const response = await fetch(`/api/stocks/${props.match.params.id}`);
 				const data = await response.json();
 				setTicker(data);
+				console.log(ticker);
 			} catch (err) {
 				console.error(err);
 			}
 		})();
 	}, []);
+
+	useEffect(() => {
+		(async () => {
+			try {
+				console.log(ticker);
+				const response = await fetch(
+					`https://api.polygon.io/v1/meta/symbols/${ticker.symbol}/news?perpage=50&page=1&apiKey=lb5t4CfGCkFI2pFpkTrfsZlaswHw8xIC`
+				);
+				console.log(response);
+				const data = await response.json();
+				console.log(data);
+				console.log(data[0].title);
+				await setAPINews(data);
+			} catch (error) {
+				console.error(error);
+			}
+		})();
+	}, [ticker]);
 
 	const handleUpdate = () => {
 		console.log('You clicked to update');
@@ -70,6 +93,17 @@ export default function StockNews(props) {
 			<button id="ticker-update-button" onClick={handleUpdateSubmit}>
 				Send Update
 			</button>
+
+			{APINews.map(article => {
+				return (
+					<div>
+						<h5>{article.title}</h5>
+						<a href={article.url} target="_blank">
+							<img src={article.image} />
+						</a>
+					</div>
+				);
+			})}
 		</div>
 	);
 }

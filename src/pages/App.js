@@ -7,10 +7,8 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import StockNews from './StockNews';
 import { DatePicker } from '../components/DatePicker';
 
-const alpha = require('alphavantage')({
-	key: 'process.env.ALPHA_VANTAGE_API_KEY'
-});
-const APIKey = 'RIDXJ7V4EWS069FV';
+const AlphaVantageAPIKey = process.env.ALPHA_VANTAGE_API_KEY;
+const PolygonAPIKey = process.env.POLYGON_API;
 
 export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
@@ -35,7 +33,7 @@ export default function App(props) {
 	const APIDataPull = async () => {
 		try {
 			const response = await fetch(
-				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${APIKey}`
+				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${AlphaVantageAPIKey}`
 			);
 			const data = await response.json();
 			await sendToDB(data);

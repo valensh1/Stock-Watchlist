@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import App from '../pages/App';
 
 const DeleteSymbol = props => {
-	console.log(props);
 	const [symbolDelete, setSymbolDelete] = useState(false);
 	const handleDelete = async event => {
 		try {
