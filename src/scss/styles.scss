@@ -31,13 +31,23 @@ body {
 
 .total-container{
   position: absolute;
-  left: 40%;
+  left: 38%;
+  top: 8%;
+}
+
+.watchlist-container{
+  position:absolute;
+  top: 73%;
+  .watchlist-data{
+    border: 1px solid white;
+  }
 }
 
 #symbol-search {
   text-transform: uppercase;
-  background-color:teal;
+  background-color:gray;
   color:white;
+  font-weight: bolder;
   font-style: italic;
 }
 
@@ -70,6 +80,23 @@ ul {
 
 #ticker-update-button {
   visibility: hidden;
+}
+
+/* Stock News Page */
+.stock-news-headers{
+  span{
+    text-transform: uppercase;
+  }
+}
+
+.article-image{
+  position:relative;
+  img {
+    width: 15%;
+    height: 15%;
+    margin-bottom: 4%;
+
+  }
 }
 
 

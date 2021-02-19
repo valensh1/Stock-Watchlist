@@ -3,6 +3,7 @@ import App from '../pages/App';
 
 const DeleteSymbol = props => {
 	const [symbolDelete, setSymbolDelete] = useState(false);
+
 	const handleDelete = async event => {
 		try {
 			const response = await fetch(`/api/stocks/${props.match.params.id}`, {
@@ -16,10 +17,10 @@ const DeleteSymbol = props => {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			//await window.location.assign('/');
 		}
 	};
-	return <button onClick={handleDelete}>DELETE</button>;
+
+	return <i onClick={handleDelete} className="large red trash icon"></i>;
 };
 
 export default DeleteSymbol;

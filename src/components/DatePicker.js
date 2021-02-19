@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import App from '../pages/App';
 
 export const DatePicker = props => {
-	const [date4Price, setDate4Price] = useState(new Date());
+	const [date4Price, setDate4Price] = useState('2021-01-01');
 
 	const handleDate = event => {
 		setDate4Price(event.target.value);

@@ -76,8 +76,9 @@ export default function StockNews(props) {
 
 	return (
 		<div>
-			<h1>{ticker.symbol} News</h1>
-			<h3>{ticker.symbol}</h3>
+			<h1 className="stock-news-headers">
+				<span>{ticker.symbol}</span> News
+			</h1>
 			<h4>${ticker.lastPrice}</h4>
 			<Link to={`/${ticker._id}/edit`}>
 				<button onClick={handleUpdate}>Update Post</button>
@@ -98,11 +99,17 @@ export default function StockNews(props) {
 
 			{APINews.map(article => {
 				return (
-					<div>
-						<h5>{article.title}</h5>
-						<a href={article.url} target="_blank">
-							<img src={article.image} />
-						</a>
+					<div className="stock-news-container">
+						<div className="article-title">
+							<a href={article.url} target="_blank">
+								<h6>{article.title}</h6>
+							</a>
+						</div>
+						<div className="article-image">
+							<a href={article.url} target="_blank">
+								<img src={article.image} />
+							</a>
+						</div>
 					</div>
 				);
 			})}

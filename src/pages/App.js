@@ -24,7 +24,6 @@ export default function App(props) {
 			} catch (error) {
 				console.error(error);
 			} finally {
-				console.log('UseEffect has run');
 			}
 		})();
 	}, [DBTicker]); // Question for Arthur - if I put DBTicker in empty brackets why does useEffect keep running continuously even though my DBTicker state is not changing constantly?
@@ -73,6 +72,19 @@ export default function App(props) {
 		setSymbol(event.target.value);
 	};
 
+	const todayDateBegin = () => {
+		const previousDay = true; // CHANGE THIS HERE TO FALSE TO GET CURRENT DAY
+		var today = new Date();
+		const previousDayFlag = previousDay
+			? String(today.getDate()).padStart(2, '0') //Change here to get date correct
+			: String(today.getDate()).padStart(2, '0');
+		var dd = String(today.getDate()).padStart(2, '0'); // gets day of month - padStart inserts at beginning. First argument tells how long it should be after insertion and 2nd argument is what do you want inserted
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); // gets month - January is 0! . padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
+		var yyyy = today.getFullYear(); // gets current year
+		let todaysDate = `${yyyy}-${mm}-${previousDayFlag}`;
+		return todaysDate;
+	};
+
 	const todayDate = () => {
 		const previousDay = true; // CHANGE THIS HERE TO FALSE TO GET CURRENT DAY
 		var today = new Date();
@@ -83,7 +95,7 @@ export default function App(props) {
 		var mm = String(today.getMonth() + 1).padStart(2, '0'); // gets month - January is 0! . padStart inserts at beginning. First argument tells how long it shold be after insertion and 2nd argument is what do you want inserted
 		var yyyy = today.getFullYear(); // gets current year
 		//let todaysDate = `${yyyy}-${mm}-${previousDayFlag}`;
-		let todaysDate = `${dateFrmChild}`;
+		let todaysDate = `${dateFrmChild}`; //this gets the date from the date input selector. Need to eventually build in logic to get last valid market date if it falls on Saturday/Sunday or holiday
 		return todaysDate;
 	};
 
@@ -99,20 +111,17 @@ export default function App(props) {
 				symbol={symbol}
 			/>
 			<br />
-			<ul>
+			<ul className="watchlist-container">
 				{DBTicker.map(stock => {
 					return (
-						<div key={stock._id} className="watchlist-container">
+						<div key={stock._id} className="watchlist-data">
 							<Link to={`/${stock._id}`} symbol={stock.symbol}>
 								<li>{stock.symbol.toUpperCase()}</li>
 								<li>${stock.lastPrice}</li>
 							</Link>
-							<Link to={`/${stock._id}`}>
-								<Link to={`/${stock._id}/delete`}>
-									<DeleteSymbol />
-								</Link>
+							<Link to={`/${stock._id}/delete`}>
+								<DeleteSymbol />
 							</Link>
-							<EditSymbol />
 						</div>
 					);
 				})}
