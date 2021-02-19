@@ -30,6 +30,16 @@ stockRouter.get('/', async (req, res) => {
 	}
 });
 
+// DELETE/DESTROY ROUTE -----Added so we can delete straight from the index page
+stockRouter.delete('/', async (req, res) => {
+	try {
+		const foundStocks = await await Stock.findByIdAndDelete(req.params.id);
+		res.status(200).json(foundStocks);
+	} catch (error) {
+		res.status(400).json(error);
+	} 	
+});
+
 // SHOW ROUTE
 stockRouter.get('/:id', async (req, res) => {
 	try {

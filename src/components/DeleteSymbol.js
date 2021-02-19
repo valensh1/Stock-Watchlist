@@ -6,7 +6,7 @@ const DeleteSymbol = props => {
 
 	const handleDelete = async event => {
 		try {
-			const response = await fetch(`/api/stocks/${props.match.params.id}`, {
+			const response = await fetch(`/api/stocks/${props.stockID}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'

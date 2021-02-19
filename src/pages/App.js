@@ -119,9 +119,7 @@ export default function App(props) {
 								<li>{stock.symbol.toUpperCase()}</li>
 								<li>${stock.lastPrice}</li>
 							</Link>
-							<Link to={`/${stock._id}/delete`}>
-								<DeleteSymbol />
-							</Link>
+							<DeleteSymbol stockID={stock._id} />
 						</div>
 					);
 				})}
