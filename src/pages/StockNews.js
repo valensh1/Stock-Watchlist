@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import App from './App';
 
 const PolygonAPIKey = 'lb5t4CfGCkFI2pFpkTrfsZlaswHw8xIC';
-//const PolygonAPIKey = process.env.POLYGON_API_KEY;
 
 export default function StockNews(props) {
 	console.log(props);
@@ -30,7 +29,7 @@ export default function StockNews(props) {
 			try {
 				console.log(ticker);
 				const response = await fetch(
-					`https://api.polygon.io/v1/meta/symbols/${ticker.symbol}/news?perpage=50&page=1&apiKey=lb5t4CfGCkFI2pFpkTrfsZlaswHw8xIC`
+					`https://api.polygon.io/v1/meta/symbols/${ticker.symbol}/news?perpage=50&page=1&apiKey=${PolygonAPIKey}`
 				);
 				console.log(response);
 				const data = await response.json();
@@ -84,7 +83,7 @@ export default function StockNews(props) {
 				<button onClick={handleUpdate}>Update Post</button>
 			</Link>
 			<br />
-			<label id="ticker-update-label" for="ticker-update">
+			<label id="ticker-update-label" htmlFor="ticker-update">
 				Update Ticker
 			</label>
 			<input

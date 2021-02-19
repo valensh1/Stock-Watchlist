@@ -104,7 +104,12 @@ export default function App(props) {
 	return (
 		<div className="total-container">
 			{/* todayDateChild is being passed as props to child DatePicker and DatePicker is taking date selected from input and sending it back up to parent */}
+			<h1 className="stage" id="heading">
+				STOCK WATCHLIST
+			</h1>
+			<br />
 			<DatePicker todayDateChild={date => setDateFrmChild(date)} />
+			<br />
 			<AddSymbol
 				onFormSubmit={onFormSubmit}
 				handleChange={handleChange}
