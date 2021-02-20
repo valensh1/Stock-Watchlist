@@ -47,10 +47,7 @@ export default function App(props) {
 		};
 		try {
 			setDBSymbolAdd(modifiedObject);
-			const response = await axios.post(
-				'http://localhost:3000/api/stocks',
-				modifiedObject
-			);
+			const response = await axios.post('api/stocks', modifiedObject);
 			setDBTicker([...DBTicker, modifiedObject]);
 		} catch (error) {
 			console.error(error);
