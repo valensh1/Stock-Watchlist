@@ -31,7 +31,7 @@ export default function App(props) {
 	const APIDataPull = async () => {
 		try {
 			const response = await fetch(
-				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${AlphaVantageAPIKey}`
+				`https://cors-anywhere.herokuapp.com/https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${AlphaVantageAPIKey}`
 			);
 			const data = await response.json();
 			await sendToDB(data);
