@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AddSymbol from '../components/AddSymbol';
 import DeleteSymbol from '../components/DeleteSymbol';
 import EditSymbol from '../components/EditButton';
+import SortButton from '../components/SortButton';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import StockNews from './StockNews';
@@ -13,7 +14,7 @@ export default function App(props) {
 	const [symbol, setSymbol] = useState(''); // sets state of ticker symbol what user enters
 	const [DBSymbolAdd, setDBSymbolAdd] = useState({}); //sets state of what to add to database
 	const [DBTicker, setDBTicker] = useState([]); //sets state of what is returned from database
-	const [dateFrmChild, setDateFrmChild] = useState(new Date());
+	const [dateFrmChild, setDateFrmChild] = useState('2021-02-19');
 	useEffect(() => {
 		// Immediately Invoked Function Expression
 		(async () => {
@@ -31,7 +32,7 @@ export default function App(props) {
 	const APIDataPull = async () => {
 		try {
 			const response = await fetch(
-				`https://cors-anywhere.herokuapp.com/https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${AlphaVantageAPIKey}`
+				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol.toUpperCase()}&apikey=${AlphaVantageAPIKey}`
 			);
 			const data = await response.json();
 			await sendToDB(data);
@@ -97,6 +98,7 @@ export default function App(props) {
 	};
 
 	let count = 1;
+	//`https://cors-anywhere.herokuapp.com/'
 
 	return (
 		<div className="total-container">
@@ -113,6 +115,11 @@ export default function App(props) {
 				symbol={symbol}
 			/>
 			<br />
+			{/* Sort button not working right now */}
+			<SortButton
+				DBTicker={DBTicker}
+				setDBTicker={sortedListAZ => setDBTicker(sortedListAZ)}
+			/>
 			<ul className="watchlist-container">
 				{DBTicker.map(stock => {
 					return (
